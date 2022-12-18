@@ -1,13 +1,8 @@
-package com.lji.mwohaemukji.model.schema.mongo;
+package com.lji.mwohaemukji.model.schema;
 
 import com.lji.mwohaemukji.model.schema.Nutrients;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,19 +16,23 @@ import java.util.List;
  * @see
  * @since 2022/12/16
  */
-@Document
 @Data
 @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "ingredient")
 @Builder
 public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ingredient_id")
     private Long ingredientId;
 
+    @Column(name = "ingredient_name")
     private String ingredientName;
 
+    @Column(name = "ingredient_amount")
     private String ingredientAmount;
 
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Nutrients> nutrientsList;
 }

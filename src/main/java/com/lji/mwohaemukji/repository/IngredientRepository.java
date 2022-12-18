@@ -1,6 +1,7 @@
-package com.lji.mwohaemukji.repository.mongo;
+package com.lji.mwohaemukji.repository;
 
-import com.lji.mwohaemukji.model.schema.mongo.Ingredient;
+import com.lji.mwohaemukji.model.schema.Ingredient;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,5 @@ import org.springframework.stereotype.Repository;
  * @since 2022/12/16
  */
 @Repository
-public interface IngredientRepository extends MongoRepository<Ingredient, Long> {
+public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 }

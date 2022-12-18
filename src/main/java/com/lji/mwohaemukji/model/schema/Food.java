@@ -30,4 +30,6 @@ public class Food {
     @Column(name = "food_kilocalories")
     private Float foodKilocalories;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Ingredient> ingredientList;
 }

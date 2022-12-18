@@ -19,4 +19,5 @@ public class FoodInsertDto {
 
     private String foodName;
     private Float foodKilocalories;
+    private List<IngredientInsertDto> ingredientList;
 }
