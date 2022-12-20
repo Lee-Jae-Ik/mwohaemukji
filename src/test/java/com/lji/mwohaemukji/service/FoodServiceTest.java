@@ -52,6 +52,7 @@ public class FoodServiceTest {
     @Autowired
     private NutrientsRepository nutrientsRepository;
 
+    /* 테스트 후 repository 내 데이터 삭제 */
     @AfterEach
     public void testAfterDataDelete() {
         Food deleteFood = foodRepository.findFoodByFoodNameAndIsTest("닭가슴살테스트",true);
@@ -145,8 +146,6 @@ public class FoodServiceTest {
         } else {
             insertFood.setFoodKilocalories(foodInsertDto.getFoodKilocalories());
         }
-
-        System.out.println("insertFood.getFoodKilocalories() = " + insertFood.getFoodKilocalories());
 
         //when
         ingredientRepository.saveAll(insertFood.getIngredientList());
