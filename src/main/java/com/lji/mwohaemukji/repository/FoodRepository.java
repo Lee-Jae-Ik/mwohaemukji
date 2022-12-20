@@ -14,4 +14,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long> {
+
+    Food findFoodByFoodNameAndIsTest(String foodName, Boolean isTest);
 }

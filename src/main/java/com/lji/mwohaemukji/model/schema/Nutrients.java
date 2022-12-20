@@ -1,10 +1,7 @@
 package com.lji.mwohaemukji.model.schema;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Nutrients
@@ -17,6 +14,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Entity @Table(name = "nutrients")
+@Builder
 public class Nutrients {
 
     @Id

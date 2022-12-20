@@ -32,4 +32,7 @@ public class Food {
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Ingredient> ingredientList;
+
+    @Column(name = "is_test", nullable = true)
+    private Boolean isTest;
 }

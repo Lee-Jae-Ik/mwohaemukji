@@ -18,4 +18,5 @@ public class NutrientsInsertDto {
     private Long ingredientId;
     private String nutrientsName;
     private String nutrientDescription;
+    private String nutrientPrecautions;
 }
