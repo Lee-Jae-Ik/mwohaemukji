@@ -63,7 +63,7 @@ public class FoodServiceTest {
 
     @Test
     @Order(1)
-    public void 음식_생성() {
+    public void 음식_생성_칼로리존재() {
         //given
         FoodInsertDto foodInsertDto = FoodInsertDto.builder()
                 .foodName("닭가슴살테스트")
@@ -83,7 +83,6 @@ public class FoodServiceTest {
 
         Food insertFood = Food.builder()
                 .foodName(foodInsertDto.getFoodName())
-                .foodKilocalories(foodInsertDto.getFoodKilocalories())
                 .isTest(true)
                 .ingredientList(foodInsertDto.getIngredientList().stream()
                         .map(ingredientDto -> Ingredient.builder()
@@ -96,6 +95,13 @@ public class FoodServiceTest {
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
+
+        if (foodInsertDto.getFoodKilocalories() == null) {
+            insertFood.setFoodKilocalories(calculateFoodKilocalories(insertFood.getIngredientList()));
+        } else {
+            insertFood.setFoodKilocalories(foodInsertDto.getFoodKilocalories());
+        }
+
         //when
         ingredientRepository.saveAll(insertFood.getIngredientList());
         foodRepository.save(insertFood);
@@ -104,5 +110,67 @@ public class FoodServiceTest {
         Assertions.assertEquals(insertFood.getFoodName(), findFood.getFoodName());
         Assertions.assertEquals(insertFood.getIngredientList().get(0).getIngredientName(), insertFood.getIngredientList().get(0).getIngredientName());
 
+    }
+
+    @Test
+    @Order(2)
+    public void 음식_생성_칼로리X() {
+        //given
+        FoodInsertDto foodInsertDto = FoodInsertDto.builder()
+                .foodName("닭가슴살테스트")
+                .ingredientList(List.of(IngredientInsertDto.builder()
+                        .ingredientName("단백질테스트")
+                        .ingredientAmount("25g")
+                .build())).build();
+
+        List<Nutrients> nutrientsList = nutrientsRepository.findAll();
+
+        Food insertFood = Food.builder()
+                .foodName(foodInsertDto.getFoodName())
+                .isTest(true)
+                .ingredientList(foodInsertDto.getIngredientList().stream()
+                        .map(ingredientDto -> Ingredient.builder()
+                                .ingredientName(ingredientDto.getIngredientName())
+                                .ingredientAmount(ingredientDto.getIngredientAmount())
+                                .isTest(true)
+                                .nutrientsList(nutrientsList.stream()
+                                        .filter(nutrients -> nutrients.getNutrientsName().equals(ingredientDto.getIngredientName()))
+                                        .collect(Collectors.toList()))
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
+
+        if (foodInsertDto.getFoodKilocalories() == null) {
+            insertFood.setFoodKilocalories(calculateFoodKilocalories(insertFood.getIngredientList()));
+        } else {
+            insertFood.setFoodKilocalories(foodInsertDto.getFoodKilocalories());
+        }
+
+        System.out.println("insertFood.getFoodKilocalories() = " + insertFood.getFoodKilocalories());
+
+        //when
+        ingredientRepository.saveAll(insertFood.getIngredientList());
+        foodRepository.save(insertFood);
+        Food findFood = foodRepository.findFoodByFoodNameAndIsTest("닭가슴살테스트", true);
+        //then
+        Assertions.assertEquals(insertFood.getFoodName(), findFood.getFoodName());
+        Assertions.assertEquals(insertFood.getIngredientList().get(0).getIngredientName(), insertFood.getIngredientList().get(0).getIngredientName());
+        Assertions.assertEquals(insertFood.getFoodKilocalories(), findFood.getFoodKilocalories());
+
+    }
+
+    private Float calculateFoodKilocalories(List<Ingredient> ingredientList) {
+        List<Nutrients> nutrientsList = nutrientsRepository.findNutrientsByDefaultCalIsNotNull();
+
+        List<Float> floatList = new ArrayList<>();
+        nutrientsList.forEach(nutrients -> {
+            Float cal = ingredientList.stream().filter(ingredient -> ingredient.getIngredientName().equals(nutrients.getNutrientsName()))
+                    .map(i -> nutrients.getDefaultCal() * Float.parseFloat(i.getIngredientAmount().substring(0, (i.getIngredientAmount().endsWith("kg")
+                            ? i.getIngredientAmount().lastIndexOf("kg") : i.getIngredientAmount().lastIndexOf("g"))))).findAny().get();
+
+            floatList.add(cal);
+        });
+
+        return (float) floatList.stream().mapToInt(Float::intValue).sum();
     }
 }

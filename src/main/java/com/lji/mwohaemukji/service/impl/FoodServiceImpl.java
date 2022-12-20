@@ -2,6 +2,8 @@ package com.lji.mwohaemukji.service.impl;
 
 import com.lji.mwohaemukji.model.dto.FoodInsertDto;
 import com.lji.mwohaemukji.repository.FoodRepository;
+import com.lji.mwohaemukji.repository.IngredientRepository;
+import com.lji.mwohaemukji.repository.NutrientsRepository;
 import com.lji.mwohaemukji.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,12 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class FoodServiceImpl implements FoodService {
 
     private final FoodRepository foodRepository;
+    private final IngredientRepository ingredientRepository;
+    private final NutrientsRepository nutrientsRepository;
 
     @Transactional
     @Override
     public String insertFoodInformation(FoodInsertDto foodInsertDto) {
 
-        
 
         return null;
     }

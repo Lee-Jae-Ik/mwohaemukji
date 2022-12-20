@@ -4,6 +4,8 @@ import com.lji.mwohaemukji.model.schema.Nutrients;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * NutrientsRepository
  *
@@ -15,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NutrientsRepository extends JpaRepository<Nutrients, Long> {
     Nutrients findNutrientsByNutrientsName(String nutrientsName);
+    List<Nutrients> findNutrientsByDefaultCalIsNotNull();
 }

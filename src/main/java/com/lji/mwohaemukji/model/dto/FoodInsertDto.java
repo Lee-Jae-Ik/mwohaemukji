@@ -1,5 +1,6 @@
 package com.lji.mwohaemukji.model.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.List;
 @Builder
 public class FoodInsertDto {
 
+    @NotNull(message = "음식의 이름은 필수 값 입니다.")
     private String foodName;
+
     private Float foodKilocalories;
+
     private List<IngredientInsertDto> ingredientList;
 }

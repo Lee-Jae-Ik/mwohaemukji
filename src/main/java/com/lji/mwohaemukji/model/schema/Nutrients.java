@@ -30,4 +30,7 @@ public class Nutrients {
 
     @Column(name = "nutrients_precautions", nullable = true, length = 255)
     private String nutrientsPrecautions;
+
+    @Column(name = "default_cal")
+    private Float defaultCal;
 }
