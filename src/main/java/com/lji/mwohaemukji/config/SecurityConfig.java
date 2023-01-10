@@ -23,7 +23,9 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer configure() {
-        return (webSecurity) -> webSecurity.ignoring();
+        return web -> {
+            web.ignoring().anyRequest();
+        };
     }
 
     @Bean

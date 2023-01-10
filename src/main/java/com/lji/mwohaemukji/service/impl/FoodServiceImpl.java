@@ -48,6 +48,12 @@ public class FoodServiceImpl implements FoodService {
                                 .isTest(true)
                                 .nutrientsList(nutrientsList.stream()
                                         .filter(nutrients -> nutrients.getNutrientsName().equals(ingredientDto.getIngredientName()))
+                                        .map(nutrients -> Nutrients.builder()
+                                                .nutrientsId(nutrients.getNutrientsId())
+                                                .nutrientsName(nutrients.getNutrientsName())
+                                                .nutrientsPrecautions(nutrients.getNutrientsDescription())
+                                                .nutrientsPrecautions(nutrients.getNutrientsPrecautions())
+                                                .build())
                                         .collect(Collectors.toList()))
                                 .build())
                         .collect(Collectors.toList()))
@@ -58,6 +64,8 @@ public class FoodServiceImpl implements FoodService {
         } else {
             insertFood.setFoodKilocalories(foodInsertDto.getFoodKilocalories());
         }
+
+
 
         ingredientRepository.saveAll(insertFood.getIngredientList());
         foodRepository.save(insertFood);
